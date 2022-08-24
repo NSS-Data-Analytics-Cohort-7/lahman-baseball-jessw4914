@@ -28,3 +28,32 @@ they earned in the major leagues.
 Sort this list in descending order by the total salary earned. 
 Which Vanderbilt player earned the most money in the majors?
 
+select p.playerid, namefirst, namelast, schoolid, sum(salary)as total_salary,
+from people as p
+left join collegeplay
+on playerid
+left join salaries
+on playerid
+where schoolname like'Van%'
+group by playerid
+order by total_salary
+
+select *
+from schools
+where schoolname like'Van%'
+
+select*
+from salaries
+
+select *
+from people
+
+select *
+from collegeplaying
+where schoolid = 'vandy'
+
+
+match on primary key playerid
+primary:people
+collegeplay
+salaries
