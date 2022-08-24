@@ -28,32 +28,48 @@ they earned in the major leagues.
 Sort this list in descending order by the total salary earned. 
 Which Vanderbilt player earned the most money in the majors?
 
-select p.playerid, namefirst, namelast, schoolid, sum(salary)as total_salary,
+answer David Price 
+
+select p.playerid, namefirst, namelast, schoolid, sum(salary)as total_salary
 from people as p
-left join collegeplay
-on playerid
-left join salaries
-on playerid
-where schoolname like'Van%'
-group by playerid
-order by total_salary
+left join collegeplaying as cp
+on p.playerid = cp.playerid
+left join salaries as s
+on p.playerid = s.playerid
+where schoolid ='vandy' 
+group by p.playerid,schoolid
+order by total_salary desc NULLS LAST;
+
+match on primary key playerid
+primary:people
+collegeplaying
+salaries
 
 select *
 from schools
 where schoolname like'Van%'
 
-select*
-from salaries
-
-select *
-from people
-
 select *
 from collegeplaying
 where schoolid = 'vandy'
 
+select*
+from salaries
 
-match on primary key playerid
-primary:people
-collegeplay
-salaries
+4. Using the fielding table, group players into three groups based on their position: 
+label players with position OF as "Outfield", 
+those with position "SS", "1B", "2B", and "3B" as "Infield", 
+and those with position "P" or "C" as "Battery". 
+Determine the number of putouts made by each of these three groups in 2016. --> po is putouts
+
+
+select yearid,
+from fielding
+
+select *
+from people
+
+
+
+
+
