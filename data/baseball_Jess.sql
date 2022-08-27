@@ -21,7 +21,7 @@ answer Eddie Gaedel at 43 inches tall, gaedeed01
 He only went to bat in 1 game, was walked and replaced by a runner on first base
 
 https://en.wikipedia.org/wiki/Eddie_Gaedel
-
+-----------------------------------------------------------------------------------------------------------
 3. Find all players in the database who played at Vanderbilt University. 
 Create a list showing each player’s first and last names as well as the total salary 
 they earned in the major leagues. 
@@ -83,5 +83,55 @@ select max(yearid)
 from fielding
 
 -----------------------------------------------------------------------------
+5.Find the average number of strikeouts per game by decade since 1920. 
+Round the numbers you report to 2 decimal places. 
+Do the same for home runs per game. Do you see any trends?
+
+select teamid, yearid, sum(g) as games,sum(SO)as "batter SO", sum(SOA)as "pitcher SO",sum(hr) as "home run!"
+from teams
+where yearid> 1920
+group by teamid,yearid
+order by yearid
+
+SO - strike out by batter - is a column - use this one
+SOA - strike out by pitcher - is a column
+HR - home run by batter - this is a column
+(avg/game) every 2016-1920/10
+
+select (MAX(yearid)-1920)/10 as decade, so as hitter, soa as pitcher
+from teams
+group by decade
+order by decade
+
+
+select yearid,count(g) as games
+from teams
+where yearid> 1920
+group by yearid
+order by yearid
+
+
+select *
+from teams
+
+
+---------------------------------------------------------------------------------------------------------
+6. find the player who had the most success stealing bases in 2016, 
+where success is measured as the percentage of stolen base attempts which are successful. 
+(A stolen base attempt results either in a stolen base or being caught stealing.) 
+Consider only players who attempted at least 20 stolen bases.
+
+
+sb - stolen bases --> THIS IS A COLUMN
+cs - caught stealing -->this is a column
+
+select *
+from batting
+
+select max(yearid) as year, playerid, sum(sb)as attempt, sum(cs) as caught
+from batting
+where yearid = '2016' and (su)
+group by playerid
+order by attempt desc
 
 
