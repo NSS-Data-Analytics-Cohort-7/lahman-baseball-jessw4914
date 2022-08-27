@@ -39,7 +39,7 @@ on p.playerid = s.playerid
 where schoolid ='vandy' 
 group by p.playerid,schoolid
 order by total_salary desc NULLS LAST;
-
+--------------
 match on primary key playerid
 primary:people
 collegeplaying
@@ -55,21 +55,33 @@ where schoolid = 'vandy'
 
 select*
 from salaries
-
-4. Using the fielding table, group players into three groups based on their position: 
+------------------------------------------------------------
+4. Using the fielding table, group players into three groups based on their position: --> pos = position column
 label players with position OF as "Outfield", 
 those with position "SS", "1B", "2B", and "3B" as "Infield", 
 and those with position "P" or "C" as "Battery". 
 Determine the number of putouts made by each of these three groups in 2016. --> po is putouts
 
+answer
 
-select yearid,
+select Max(yearid) as year,pos,sum(po) as PO,
+case when pos = 'OF' theN 'Outfield'
+	when pos = 'SS' then 'Infield'
+	when pos = '1B' then 'Infield'
+	when pos = '2B' then 'Infield'
+	when pos = '3B' then 'Infield'
+	else 'Battery' end as position
+from fielding
+group by pos
+order by PO desc
+
+-----------------
+select *
 from fielding
 
-select *
-from people
+select max(yearid)
+from fielding
 
-
-
+-----------------------------------------------------------------------------
 
 
