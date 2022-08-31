@@ -86,29 +86,17 @@ from fielding
 5.Find the average number of strikeouts per game by decade since 1920. 
 Round the numbers you report to 2 decimal places. 
 Do the same for home runs per game. Do you see any trends?
-
-select teamid, yearid, sum(g) as games,sum(SO)as "batter SO", sum(SOA)as "pitcher SO",sum(hr) as "home run!"
-from teams
-where yearid> 1920
-group by teamid,yearid
-order by yearid
-
+notes:
 SO - strike out by batter - is a column - use this one
 SOA - strike out by pitcher - is a column
 HR - home run by batter - this is a column
 (avg/game) every 2016-1920/10
 
-select (MAX(yearid)-1920)/10 as decade, so as hitter, soa as pitcher
-from teams
-group by decade
-order by decade
-
-
-select yearid,count(g) as games
+select (yearid/10)*10 as decade,count(g)as  total_games,sum(so) as strike_outs, sum(so)/count(g) as decade_so 
 from teams
 where yearid> 1920
-group by yearid
-order by yearid
+group by decade
+order by decade_so
 
 
 select *
@@ -121,17 +109,30 @@ where success is measured as the percentage of stolen base attempts which are su
 (A stolen base attempt results either in a stolen base or being caught stealing.) 
 Consider only players who attempted at least 20 stolen bases.
 
-
+notes:
 sb - stolen bases --> THIS IS A COLUMN
 cs - caught stealing -->this is a column
 
 select *
 from batting
 
-select max(yearid) as year, playerid, sum(sb)as attempt, sum(cs) as caught
-from batting
-where yearid = '2016' and (su)
-group by playerid
-order by attempt desc
+select max(yearid) as year, b.playerid, p.namefirst, p.namelast, sum(sb)as attempt, 
+sum(cs) as caught, sum(sb)-sum(cs) as success
+from batting as b
+left join people as p
+on b.playerid = p.playerid
+where yearid = '2016'
+group by b.playerid, p.namefirst, p.namelast
+order by success desc
+
+--------------------------------------------------------------------------------------------------------------
+7. From 1970 – 2016, what is the largest number of wins for a team that did not win the world series? 
+What is the smallest number of wins for a team that did win the world series? 
+Doing this will probably result in an unusually small number of wins for a world series champion – 
+determine why this is the case. Then redo your query, excluding the problem year. How often from 1970 – 2016 
+was it the case that a team with the most wins also won the world series? What percentage of the time?
+
+
+
 
 
