@@ -126,13 +126,101 @@ group by b.playerid, p.namefirst, p.namelast
 order by success desc
 
 --------------------------------------------------------------------------------------------------------------
-7. From 1970 – 2016, what is the largest number of wins for a team that did not win the world series? 
-What is the smallest number of wins for a team that did win the world series? 
-Doing this will probably result in an unusually small number of wins for a world series champion – 
-determine why this is the case. Then redo your query, excluding the problem year. How often from 1970 – 2016 
-was it the case that a team with the most wins also won the world series? What percentage of the time?
+7. 
+A.From 1970 –2016, what is the largest number of wins for a team that did not win the world series? 
+B. What is the smallest number of wins for a team that did win the world series? 
+C. Doing this will probably result in an unusually small number of wins for a world series champion – 
+determine why this is the case. 
+Then redo your query, excluding the problem year. 
+D. How often from 1970 – 2016 was it the case that a team with the most wins also won the world series? 
+What percentage of the time?
+
+select *
+from teams
+
+A.
+New York Yankees had 114 wins and won the 1994 world series
+
+select yearid, teamid as team, sum(w), wswin
+from teams
+where wswin = 'Y' and yearid>1970
+group by team, yearid, wswin
+order by sum desc
+
+B.
+la dodgers with 63 wins
+
+select yearid as year,teamid as team, wswin, sum(w) as total_wins
+from teams
+where wswin = 'Y' and yearid>1970
+group by year, teamid, wswin
+order by total_wins ASC
+
+c.the world series in 1981 was won by the LA Dodgers after a baseball strike.
+redone query:
+
+select yearid as year,teamid as team, wswin, sum(w) as total_wins
+from teams
+where wswin = 'Y' and yearid>1970 and not yearid='1981'
+group by year, teamid, wswin
+order by total_wins ASC
+
+d.
+
+select yearid, teamid as team, sum(w), wswin, 
+case when wswin = 'Y' then 1 
+when wswin ='N'then 0 
+end as numbers
+from teams
+where yearid>1970
+group by team, yearid,wswin
+order by sum desc
+
+select yearid, teamid as team, sum(w), wswin
+from teams
+where yearid>1970
+group by team, yearid,wswin
+order by sum desc
+
+---------------------------------------------------------------------------------------------------------------------
+8.Using the attendance figures from the homegames table, 
+find the teams and parks which had the top 5 average attendance per game in 2016 
+(where average attendance is defined as total attendance divided by number of games). 
+Only consider parks where there were at least 10 games played. Report the park name, 
+team name, and average attendance. Repeat for the lowest 5 average attendance.
+
+top five high attendance:
+
+select year, team, park, attendance/games as avg_attendance
+from homegames 
+where year = 2016
+order by avg_attendance desc
+limit 5
+
+lowest 5 in attendance:
+
+select year, team, park, attendance/games as avg_attendance
+from homegames 
+where year = 2016
+order by avg_attendance asc
+limit 5
+
+select team, park_name, t.name
+from homegames as h
+left join parks as p
+on h.park = p.park
+left join teams as t
+on h.team = t.teamid
+where h.year=2016
 
 
 
+select *
+from parks
 
+select * 
+from homegames
+
+select *
+from teams
 
